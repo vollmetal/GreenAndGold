@@ -82,6 +82,13 @@ Event OnTerminalMenuItemRun(int auiMenuItemID, TerminalMenu akTerminalBase, Obje
                     EndIf
                     player.AddItem(Credit, ModAmount[index])
                 EndIf
+                
+                If (PlayerLoanBalance.GetValue() < 1.0)
+                    LoanInterestQuest.Stop()
+                    PlayerLoanOpened.SetValue(0.0)
+                    PlayerLoanBalance.SetValue(0.0)
+                    LoanPaymentDue.SetValue(0.0)
+                EndIf
             EndIf
             index = ModAmount.length
         EndIf

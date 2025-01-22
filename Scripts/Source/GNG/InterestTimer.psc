@@ -57,7 +57,7 @@ Event OnTimerGameTime(int aiTimerID)
     float paymentAmount = AutoPayAmount.GetValue()
 
     If (IsDebt)
-        If (AutoPay.GetValue() > 0.0)
+        If (AutoPay.GetValue() > 0.0 && ManagedAccount.GetValue() > 0.0)
             If (AutoPayInterest.GetValue() > 0.0 && interestPaymentDue > 0.0)
                 If (player.GetItemCount(credit) >= interestPaymentDue)
                     player.RemoveItem(credit, interestPaymentDue as int)
@@ -91,13 +91,13 @@ Event OnTimerGameTime(int aiTimerID)
                 EndIf
             EndIf
             
-        Else
+        ElseIf(ManagedAccount.GetValue() > 0.0)
             ManagedAccount.SetValue(ManagedAccount.GetValue() + interest)
         EndIf
 
         interestPaymentDue = PaymentDue.GetValue()
             
-        If (interestPaymentDue > 0.0)
+        If (interestPaymentDue > 1.0 && ManagedAccount.GetValue() > 0.0)
             OverdraftCalc(ManagedAccount.GetValue(), AccountStrikes, OwningFaction)
         Else
             If (accountStrikes.GetValue() > 0.0)
